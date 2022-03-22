@@ -31,6 +31,7 @@ namespace API
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             });
+            services.AddCors();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -52,6 +53,12 @@ namespace API
 
             app.UseRouting();
 
+            app.UseCors( policy => {
+                policy.AllowAnyHeader();
+                policy.AllowAnyMethod();
+                policy.WithOrigins("https://localhost:4200");
+            });
+                
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
